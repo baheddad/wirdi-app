@@ -235,6 +235,10 @@
   .kh-row .p{font-size:.74rem;color:var(--emerald)}
   .kh-row .chk{color:var(--gold);font-weight:700;font-size:1.05rem;width:18px;text-align:center}
   .kh-note{margin-top:10px;text-align:center;font-size:.78rem;color:var(--emerald);font-family:var(--head);font-weight:500;line-height:1.8}
+  .plan-switch{display:flex;gap:8px;margin-bottom:14px}
+  .plan-btn{flex:1;font-family:var(--head);font-weight:700;font-size:.95rem;color:var(--gold-soft);background:rgba(198,161,91,.12);border:1.5px solid var(--gold);border-radius:12px;padding:10px 6px;cursor:pointer;line-height:1.5}
+  .plan-btn small{display:block;font-size:.66rem;font-weight:500;opacity:.85}
+  .plan-btn.active{background:var(--gold);color:var(--indigo)}
 
   /* ─── خريطة الحفظ والنسخ ─── */
   .hifz-sum{text-align:center;font-family:var(--head);font-weight:600;font-size:.9rem;color:var(--indigo);margin-bottom:8px}
@@ -251,7 +255,8 @@
   .hifz-legend i{display:inline-block;width:12px;height:12px;border-radius:4px;vertical-align:-2px;margin-inline-end:5px}
   .bk-hint{font-size:.9rem;line-height:1.9;text-align:justify;margin-bottom:12px}
   .bk-msg{margin-top:10px;padding:9px 12px;border-radius:9px;text-align:center;font-family:var(--head);font-size:.82rem;font-weight:600;background:rgba(35,96,79,.12);border:1px dashed var(--emerald);color:var(--emerald)}
-  .rem-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .rem-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px dashed rgba(198,161,91,.35)}
+  .rem-row:last-of-type{border-bottom:none}
   .rem-lab{font-family:var(--head);font-weight:600;font-size:.9rem;color:var(--emerald)}
   .rem-time{font-family:var(--head);font-weight:600;font-size:1rem;color:var(--indigo);background:rgba(198,161,91,.08);border:1px solid var(--gold);border-radius:9px;padding:8px 12px;outline:none}
 
@@ -338,7 +343,7 @@
       </div>
 
       <div class="card">
-        <div class="card-title">ختمة العشرة أيام</div>
+        <div class="card-title" id="khMiniTitle"></div>
         <div class="wotd">
           <div class="mini-marker" id="khMiniNum"></div>
           <div>
@@ -353,9 +358,14 @@
     <!-- ═══════════ الختمة ═══════════ -->
     <section id="view-khatma" hidden>
       <div class="card night">
-        <div class="kh-hero-t">ختمُ القرآن في عشرة أيام</div>
-        <div class="kh-hero-s">على طريقة السلف — الوقوفُ كلَّ يومٍ على نهاية سورة</div>
+        <div class="kh-hero-t" id="khHeroT"></div>
+        <div class="kh-hero-s" id="khHeroS"></div>
         <div class="kh-count" id="khCount"></div>
+      </div>
+
+      <div class="plan-switch">
+        <button class="plan-btn" id="planTen">عشرة أيام<small>الوقوف على السور</small></button>
+        <button class="plan-btn" id="planSeven">التسبيع ✦<small>فمي بشوق — سبعة أيام</small></button>
       </div>
 
       <div class="card">
@@ -377,7 +387,7 @@
       </div>
 
       <div class="card">
-        <div class="card-title">خطة الأيام العشرة — انقر يومًا للانتقال إليه</div>
+        <div class="card-title">خطة الأيام — انقر يومًا للانتقال إليه</div>
         <div id="khTable"></div>
         <div class="kh-note">الصفحات تقريبية بمصحف المدينة (≈ ٦٠٤ صفحات)، وقد تختلف يسيرًا بحسب الطبعة.</div>
       </div>
@@ -454,12 +464,20 @@
       </div>
       <div class="card">
         <div class="card-title">التذكير اليومي</div>
-        <p class="bk-hint">أضف حدثًا متكررًا إلى تقويم جوالك يُنبّهك كل ليلة لإتمام وردك — يعمل بلا إنترنت وبلا أي خادم، وتتحكم به من التقويم متى شئت.</p>
+        <p class="bk-hint" id="remHint">أضف حدثًا متكررًا إلى تقويم جوالك يُنبّهك كل ليلة لإتمام وردك — يعمل بلا إنترنت وبلا أي خادم، وتتحكم به من التقويم متى شئت.</p>
         <div class="rem-row">
-          <label class="rem-lab" for="remTime">وقت التنبيه</label>
-          <input type="time" id="remTime" value="21:00" class="rem-time">
+          <label class="rem-lab" for="remTime1">🌅 بعد الفجر</label>
+          <input type="time" id="remTime1" value="05:30" class="rem-time">
         </div>
-        <button class="gold-btn" id="remBtn" style="margin-top:12px">🔔 إنشاء التذكير للتقويم</button>
+        <div class="rem-row">
+          <label class="rem-lab" for="remTime2">☀️ بعد العصر</label>
+          <input type="time" id="remTime2" value="16:00" class="rem-time">
+        </div>
+        <div class="rem-row">
+          <label class="rem-lab" for="remTime3">🌙 بعد العشاء</label>
+          <input type="time" id="remTime3" value="21:00" class="rem-time">
+        </div>
+        <button class="gold-btn" id="remBtn" style="margin-top:12px">🔔 إنشاء التذكيرات الثلاثة</button>
         <div class="bk-msg" id="remMsg" hidden></div>
       </div>
 
@@ -584,6 +602,22 @@ const KHATMA = [
  {range:'من فصّلت إلى نهاية الحديد', surahs:'فصّلت، الشورى، الزخرف، الدخان، الجاثية، الأحقاف، محمد، الفتح، الحجرات، ق، الذاريات، الطور، النجم، القمر، الرحمن، الواقعة، الحديد', pages:64, first:'فصّلت', last:'الحديد'},
  {range:'من المجادلة إلى نهاية الناس', surahs:'من المجادلة إلى الناس — خواتيمُ المصحف وقصارُ السور', pages:63, first:'المجادلة', last:'الناس'},
 ];
+
+/* تحزيب الصحابة — التسبيع (فمي بشوق)؛ حديث أوس بن حذيفة */
+const TASBEE = [
+ {L:'ف', n:'ثلاث سور', range:'من الفاتحة إلى نهاية النساء', surahs:'الفاتحة، البقرة، آل عمران، النساء', pages:106, first:'الفاتحة', last:'النساء'},
+ {L:'م', n:'خمس سور', range:'من المائدة إلى نهاية التوبة', surahs:'المائدة، الأنعام، الأعراف، الأنفال، التوبة', pages:101, first:'المائدة', last:'التوبة'},
+ {L:'ي', n:'سبع سور', range:'من يونس إلى نهاية النحل', surahs:'يونس، هود، يوسف، الرعد، إبراهيم، الحجر، النحل', pages:74, first:'يونس', last:'النحل'},
+ {L:'ب', n:'تسع سور', range:'من الإسراء إلى نهاية الفرقان', surahs:'الإسراء، الكهف، مريم، طه، الأنبياء، الحج، المؤمنون، النور، الفرقان', pages:85, first:'الإسراء', last:'الفرقان'},
+ {L:'ش', n:'إحدى عشرة سورة', range:'من الشعراء إلى نهاية يس', surahs:'الشعراء، النمل، القصص، العنكبوت، الروم، لقمان، السجدة، الأحزاب، سبأ، فاطر، يس', pages:79, first:'الشعراء', last:'يس'},
+ {L:'و', n:'ثلاث عشرة سورة', range:'من الصافات إلى نهاية الحجرات', surahs:'الصافات، ص، الزمر، غافر، فصّلت، الشورى، الزخرف، الدخان، الجاثية، الأحقاف، محمد، الفتح، الحجرات', pages:72, first:'الصافات', last:'الحجرات'},
+ {L:'ق', n:'حزب المفصَّل', range:'من ق إلى نهاية الناس', surahs:'حزب المفصَّل كاملًا — من ق حتى تُختم', pages:87, first:'ق', last:'الناس'},
+];
+
+const PLANS = {
+  ten:   {title:'ختمُ القرآن في عشرة أيام', sub:'الوقوفُ كلَّ يومٍ على نهاية سورة', mini:'ختمة العشرة أيام', total:10, data:KHATMA},
+  seven: {title:'التسبيع — ختمة الأسبوع', sub:'تحزيبُ الصحابة في حديث أوس: «فمي بشوق»', mini:'التسبيع — فمي بشوق ✦', total:7, data:TASBEE},
+};
 
 /* ═══ كنوز السلف والخلف — مواعظ اليوم ═══ */
 const MAWAIZ = [
@@ -1435,46 +1469,67 @@ $('qmawShuffle').addEventListener('click', () => {
   setTimeout(() => pick.classList.remove('flash'), 1600);
 });
 
-/* ═══════════ الختمة ═══════════ */
+/* ═══════════ الختمة (خطتان) ═══════════ */
+function khNormalize(){
+  if(!DB.kh) DB.kh = {};
+  if(!DB.kh.plan){
+    DB.kh = { plan:'ten',
+      ten:   { day: DB.kh.day || 1, done: DB.kh.done || [], count: DB.kh.count || 0 },
+      seven: { day:1, done:[], count:0 } };
+  }
+  DB.kh.ten = DB.kh.ten || {day:1, done:[], count:0};
+  DB.kh.seven = DB.kh.seven || {day:1, done:[], count:0};
+}
+function khP(){ return PLANS[DB.kh.plan] || PLANS.ten; }
+function khS(){ return DB.kh[DB.kh.plan] || DB.kh.ten; }
+function khSwitchPlan(p){
+  DB.kh.plan = p;
+  $('khBanner').hidden = true;
+  save(); renderKhatma();
+}
 function khDone(){
-  const kh = DB.kh;
-  if(!kh.done.includes(kh.day)) kh.done.push(kh.day);
-  if(kh.day >= 10){
-    kh.count = (kh.count || 0) + 1;
-    kh.day = 1; kh.done = [];
-    $('khBanner').textContent = '۞ ختمةٌ مباركة! أتممتَ ختمتك رقم ' + toAr(kh.count) + ' — تقبّل الله، ونعود إلى الفاتحة';
+  const st = khS(), P = khP();
+  if(!st.done.includes(st.day)) st.done.push(st.day);
+  if(st.day >= P.total){
+    st.count = (st.count || 0) + 1;
+    st.day = 1; st.done = [];
+    $('khBanner').textContent = '۞ ختمةٌ مباركة! أتممتَ ختمتك رقم ' + toAr(st.count) + (DB.kh.plan === 'seven' ? ' على تحزيب الصحابة' : '') + ' — ونعود إلى الفاتحة';
   } else {
-    kh.day++;
-    $('khBanner').textContent = 'تقبّل الله ✦ وِردُ غدك: ' + KHATMA[kh.day-1].range;
+    st.day++;
+    $('khBanner').textContent = 'تقبّل الله ✦ وِردُ غدك: ' + P.data[st.day-1].range;
   }
   $('khBanner').hidden = false;
   try{ if(navigator.vibrate) navigator.vibrate([15,40,15]); }catch(e){}
   save(); renderKhatma();
 }
 function khSet(d){
-  DB.kh.day = d;
+  khS().day = d;
   $('khBanner').hidden = true;
   save(); renderKhatma();
 }
 function renderKhatma(){
-  const kh = DB.kh, d = KHATMA[kh.day - 1];
-  $('khCount').textContent = kh.count > 0
-    ? '۞ ختماتُك المتمّة: ' + toAr(kh.count)
+  const P = khP(), st = khS(), d = P.data[st.day - 1];
+  $('khHeroT').textContent = P.title;
+  $('khHeroS').textContent = P.sub;
+  $('planTen').classList.toggle('active', DB.kh.plan === 'ten');
+  $('planSeven').classList.toggle('active', DB.kh.plan === 'seven');
+  $('khCount').textContent = st.count > 0
+    ? '۞ ختماتُك المتمّة: ' + toAr(st.count)
     : 'ختمتُك الأولى — بارك الله بدايتك';
-  $('khDayNum').textContent = 'اليوم ' + toAr(kh.day) + ' من ' + toAr(10);
+  $('khDayNum').textContent = (d.L ? 'حزب «' + d.L + '» — ' : '') + 'اليوم ' + toAr(st.day) + ' من ' + toAr(P.total);
   $('khRange').textContent = d.range;
-  $('khSurahs').textContent = d.surahs;
+  $('khSurahs').textContent = (d.n ? d.n + ': ' : '') + d.surahs;
   $('khPages').textContent = '≈ ' + toAr(d.pages) + ' صفحة';
-  $('khDots').innerHTML = KHATMA.map((_, i) =>
-    `<i class="${kh.done.includes(i+1)?'on':''} ${i+1===kh.day?'cur':''}"></i>`).join('');
-  $('khTable').innerHTML = KHATMA.map((k, i) => `
-    <div class="kh-row ${i+1===kh.day?'cur':''}" data-d="${i+1}">
-      <div class="d">${toAr(i+1)}</div>
+  $('khDots').innerHTML = P.data.map((_, i) =>
+    `<i class="${st.done.includes(i+1)?'on':''} ${i+1===st.day?'cur':''}"></i>`).join('');
+  $('khTable').innerHTML = P.data.map((k, i) => `
+    <div class="kh-row ${i+1===st.day?'cur':''}" data-d="${i+1}">
+      <div class="d">${k.L || toAr(i+1)}</div>
       <div class="info">
         <div class="r">${k.range}</div>
-        <div class="p">≈ ${toAr(k.pages)} صفحة</div>
+        <div class="p">${k.n ? k.n + ' • ' : ''}≈ ${toAr(k.pages)} صفحة</div>
       </div>
-      <div class="chk">${kh.done.includes(i+1)?'✓':''}</div>
+      <div class="chk">${st.done.includes(i+1)?'✓':''}</div>
     </div>`).join('');
   document.querySelectorAll('.kh-row').forEach(el =>
     el.addEventListener('click', () => khSet(+el.dataset.d)));
@@ -1484,10 +1539,13 @@ function renderKhatma(){
   $('sess3').innerHTML = '<span class="ic">🌙</span><div><b>الثالثة — بعد العشاء</b>اختم بسورة ' + d.last + ' حتى نهايتها — وقِف على نهاية سورة كما فعل السلف.</div>';
 
   /* بطاقة اليوم المصغّرة */
-  $('khMiniNum').textContent = toAr(kh.day);
+  $('khMiniTitle').textContent = P.mini;
+  $('khMiniNum').textContent = d.L || toAr(st.day);
   $('khMiniRange').textContent = d.range;
-  $('khMiniPages').textContent = '≈ ' + toAr(d.pages) + ' صفحة' + (kh.count ? ' • ختماتك: ' + toAr(kh.count) : '');
+  $('khMiniPages').textContent = 'اليوم ' + toAr(st.day) + ' من ' + toAr(P.total) + ' • ≈ ' + toAr(d.pages) + ' صفحة' + (st.count ? ' • ختماتك: ' + toAr(st.count) : '');
 }
+$('planTen').addEventListener('click', () => khSwitchPlan('ten'));
+$('planSeven').addEventListener('click', () => khSwitchPlan('seven'));
 
 /* ═══════════ خريطة الحفظ ═══════════ */
 const HIFZ_CYCLE = {0:1, 1:3, 3:2, 2:0};
@@ -1548,7 +1606,7 @@ $('bkFile').addEventListener('change', e => {
       const nKh = (d.kh && d.kh.count) || 0;
       if(!confirm('استرجاع نسخة فيها ' + toAr(nDays) + ' يومًا مسجّلًا و' + toAr(nKh) + ' ختمة؟ سيستبدل سجلك الحالي.')) return;
       DB = d;
-      DB.kh = DB.kh || {day:1, done:[], count:0};
+      khNormalize();
       if(!Array.isArray(DB.hifz) || DB.hifz.length !== 30) DB.hifz = Array(30).fill(0);
       await save();
       renderToday(); renderRecord(); renderKhatma(); renderHifz();
@@ -1559,47 +1617,86 @@ $('bkFile').addEventListener('change', e => {
   e.target.value = '';
 });
 
-/* ═══════════ التذكير اليومي (تقويم) ═══════════ */
+/* ═══════════ الجسر الأصلي (داخل تطبيق iOS فقط) ═══════════ */
+const IS_NATIVE = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+function remShow(t){ const m = $('remMsg'); m.textContent = t; m.hidden = false; setTimeout(() => m.hidden = true, 8000); }
+function applyNativeUI(){
+  if(!IS_NATIVE) return;
+  $('remBtn').textContent = '🔔 تفعيل الإشعار اليومي';
+  $('remHint').textContent = 'أنت داخل تطبيق iOS — سيُجدول إشعار أصلي يومي من جهازك مباشرة، بلا تقويم وبلا إنترنت. اختر الوقت واضغط التفعيل.';
+}
+const REM_SLOTS = [
+  {id:1, key:'remTime1', body:'وردُ الفجر — هل بدأت وردك اليوم؟'},
+  {id:2, key:'remTime2', body:'لم يبقَ من يومك الكثير — أتممتَ وِردك؟'},
+  {id:3, key:'remTime3', body:'قبل أن ينام يومك: هل أتممتَ وِردك؟ ✦'},
+];
+async function scheduleNative(){
+  try{
+    const LN = window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications;
+    if(!LN){ remShow('ملحق الإشعارات غير مثبّت في هذه النسخة'); return; }
+    const perm = await LN.requestPermissions();
+    if(!perm || perm.display !== 'granted'){ remShow('فعّل الإشعارات لوِردي من إعدادات iOS ثم أعد المحاولة'); return; }
+    try{ await LN.cancel({notifications:REM_SLOTS.map(s => ({id:s.id}))}); }catch(e){}
+    const times = [];
+    const notifs = REM_SLOTS.map(s => {
+      const t = ($(s.key).value || '00:00').split(':');
+      const hh = String(t[0]).padStart(2,'0'), mm = String(t[1]).padStart(2,'0');
+      times.push(hh + ':' + mm);
+      return {
+        id: s.id,
+        title: 'وِردي ✦',
+        body: s.body,
+        schedule: { on: { hour: +hh, minute: +mm } }
+      };
+    });
+    await LN.schedule({notifications: notifs});
+    remShow('تم ✓ ستصلك ثلاث تذكيرات يوميًا: ' + times.join(' — '));
+  }catch(e){ remShow('تعذر جدولة الإشعارات'); }
+}
+
+/* ═══════════ التذكير اليومي (تقويم — نسخة الويب) ═══════════ */
 $('remBtn').addEventListener('click', () => {
-  const t = ($('remTime').value || '21:00').split(':');
-  const hh = String(t[0]).padStart(2,'0'), mm = String(t[1]).padStart(2,'0');
+  if(IS_NATIVE){ scheduleNative(); return; }
   const d = new Date();
   const day = d.getFullYear() + String(d.getMonth()+1).padStart(2,'0') + String(d.getDate()).padStart(2,'0');
-  const stamp = day + 'T' + hh + mm + '00';
   const url = location.origin + location.pathname;
-  const ics = [
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    'PRODID:-//Wirdi//AR',
-    'BEGIN:VEVENT',
-    'UID:wirdi-daily-' + hh + mm + '@wirdi.app',
-    'DTSTAMP:' + stamp,
-    'DTSTART:' + stamp,
-    'DURATION:PT15M',
-    'RRULE:FREQ=DAILY',
-    'SUMMARY:وردُ اليوم — أتممتَه؟ ✦',
-    'DESCRIPTION:افتح وِردي وأكمل وردك قبل أن ينام يومك\n' + url,
-    'URL:' + url,
-    'BEGIN:VALARM',
-    'TRIGGER:PT0S',
-    'ACTION:DISPLAY',
-    'DESCRIPTION:وردُ اليوم — أتممتَه؟ ✦',
-    'END:VALARM',
-    'END:VEVENT',
-    'END:VCALENDAR'
-  ].join('\r\n');
+  const slots = [
+    {key:'remTime1', label:'وردُ الفجر', body:'هل بدأت وردك اليوم؟'},
+    {key:'remTime2', label:'متابعة الوِرد', body:'أتممتَ وِردك حتى الآن؟'},
+    {key:'remTime3', label:'وردُ اليوم', body:'أتممتَه قبل أن ينام يومك؟ ✦'},
+  ];
+  const events = slots.map((s, i) => {
+    const t = ($(s.key).value || '00:00').split(':');
+    const hh = String(t[0]).padStart(2,'0'), mm = String(t[1]).padStart(2,'0');
+    const stamp = day + 'T' + hh + mm + '00';
+    return [
+      'BEGIN:VEVENT',
+      'UID:wirdi-daily-' + (i+1) + '-' + hh + mm + '@wirdi.app',
+      'DTSTAMP:' + stamp,
+      'DTSTART:' + stamp,
+      'DURATION:PT10M',
+      'RRULE:FREQ=DAILY',
+      'SUMMARY:' + s.label + ' — وِردي ✦',
+      'DESCRIPTION:' + s.body + '\n' + url,
+      'URL:' + url,
+      'BEGIN:VALARM',
+      'TRIGGER:PT0S',
+      'ACTION:DISPLAY',
+      'DESCRIPTION:' + s.label,
+      'END:VALARM',
+      'END:VEVENT'
+    ].join('\r\n');
+  }).join('\r\n');
+  const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Wirdi//AR', events, 'END:VCALENDAR'].join('\r\n');
   try{
     const a = document.createElement('a');
     a.href = URL.createObjectURL(new Blob([ics], {type:'text/calendar;charset=utf-8'}));
-    a.download = 'wirdi-reminder.ics';
+    a.download = 'wirdi-reminders.ics';
     a.click();
     setTimeout(() => URL.revokeObjectURL(a.href), 3000);
-    const m = $('remMsg');
-    m.textContent = 'نُزّل الملف — افتحه من «التنزيلات» ثم «إضافة الكل» إلى التقويم، وسيصلك التنبيه يوميًا الساعة ' + hh + ':' + mm;
-    m.hidden = false;
-    setTimeout(() => m.hidden = true, 8000);
+    remShow('نُزّل الملف — افتحه من «التنزيلات» ثم «إضافة الكل» لإضافة التذكيرات الثلاثة إلى التقويم');
   }catch(e){
-    const m = $('remMsg'); m.textContent = 'تعذر إنشاء الملف — جرّب من Safari'; m.hidden = false;
+    remShow('تعذر إنشاء الملف — جرّب من Safari');
   }
 });
 
@@ -1620,7 +1717,8 @@ function openWasiyya(i){
 
 $('resetBtn').addEventListener('click', async () => {
   if(confirm('هل تريد حقًّا مسح سجلّ الوِرد كاملًا؟')){
-    DB = { days:{}, first:null, kh:{day:1, done:[], count:0}, hifz:Array(30).fill(0) };
+    DB = { days:{}, first:null, hifz:Array(30).fill(0) };
+    khNormalize();
     await save(); renderToday(); renderRecord(); renderKhatma(); renderHifz();
   }
 });
@@ -1639,9 +1737,10 @@ $('khDoneBtn').addEventListener('click', khDone);
 /* ═══════════ البدء ═══════════ */
 (async function init(){
   await load();
-  DB.kh = DB.kh || { day:1, done:[], count:0 };
+  khNormalize();
   if(!Array.isArray(DB.hifz) || DB.hifz.length !== 30) DB.hifz = Array(30).fill(0);
   renderWasaya(); renderMawaiz(); renderFadail(); renderQMawaiz(); renderToday(); renderRecord(); renderKhatma(); renderHifz();
+  applyNativeUI();
 })();
 </script>
 </body>
